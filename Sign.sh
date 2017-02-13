@@ -59,8 +59,8 @@ echo "Signing for Spreadtrum"
 	then
 	echo "Factory spreadtrum"
 	./build_spreadtrum/tools/releasetools/img_from_target_files $new_path_of_signed_target_files/Signed-MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build-$mmx_build_version_$target_product.zip $new_path_of_signed_target_files/MMX-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-Signed-fastboot-images-$date_time_stamp.zip
-	aws s3 cp $new_path_of_signed_target_files/MMX-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-Signed-fastboot-images-$date_time_stamp.zip s3://yuopenos/$odm_name/
-	props=$(ls $new_path_of_signed_target_files -t1 | head -n 1 | tr -d '\r')
+	aws s3 cp $new_path_of_signed_target_files/MMX-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-Signed-fastboot-images-$date_time_stamp.zip s3://yuopenos/$odm_name/$target_product/
+	props=$target_product/$(ls $new_path_of_signed_target_files -t1 | head -n 1 | tr -d '\r')
 	cd $WORKSPACE
 	echo props=$props > build.properties
 
@@ -72,8 +72,8 @@ echo "Signing for Spreadtrum"
   	 -k $mmx_key_path/releasekey \
  	$new_path_of_signed_target_files/Signed-MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product.zip \
    	$new_path_of_signed_target_files/Signed-MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-ota.zip
-aws s3 cp $new_path_of_signed_target_files/Signed-MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-ota.zip s3://yuopenos/$odm_name/
-	props=$(ls $new_path_of_signed_target_files -t1 | head -n 1 | tr -d '\r')
+	aws s3 cp $new_path_of_signed_target_files/Signed-MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-ota.zip s3://yuopenos/$odm_name/$target_product/
+	props=$target_product/$(ls $new_path_of_signed_target_files -t1 | head -n 1 | tr -d '\r')
 	cd $WORKSPACE
 	echo props=$props > build.properties
 	fi
@@ -88,8 +88,8 @@ else
 	then
 	echo "Factory-signing"
 	./build/tools/releasetools/img_from_target_files.py $new_path_of_signed_target_files/Signed-MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product.zip $new_path_of_signed_target_files/MMX-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-Signed-fastboot-images-$date_time_stamp.zip
-	aws s3 cp $new_path_of_signed_target_files/MMX-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-Signed-fastboot-images-$date_time_stamp.zip s3://yuopenos/$odm_name/
-	props=$(ls $new_path_of_signed_target_files -t1 | head -n 1 | tr -d '\r')
+	aws s3 cp $new_path_of_signed_target_files/MMX-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-Signed-fastboot-images-$date_time_stamp.zip s3://yuopenos/$odm_name/$target_product/
+	props=$target_product/$(ls $new_path_of_signed_target_files -t1 | head -n 1 | tr -d '\r')
 	cd $WORKSPACE
 	echo props=$props > build.properties
 	elif [ "$build_type" == "Full OTA" ];
@@ -100,8 +100,8 @@ else
   	 -k $mmx_key_path/releasekey \
  	$new_path_of_signed_target_files/Signed-MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product.zip \
    	$new_path_of_signed_target_files/Signed-MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-full-ota.zip
-	aws s3 cp $new_path_of_signed_target_files/Signed-MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-full-ota.zip s3://yuopenos/$odm_name/
-	props=$(ls $new_path_of_signed_target_files -t1 | head -n 1 | tr -d '\r')
+	aws s3 cp $new_path_of_signed_target_files/Signed-MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-full-ota.zip s3://yuopenos/$odm_name/$target_product/
+	props=$target_product/$(ls $new_path_of_signed_target_files -t1 | head -n 1 | tr -d '\r')
 	cd $WORKSPACE
 	echo props=$props > build.properties
 	else
@@ -111,8 +111,8 @@ else
 	 -k $mmx_key_path/releasekey \
 	 -i $last_target_file \
 	 $new_path_of_signed_target_files/Signed-MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product.zip $new_path_of_signed_target_files/MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-incremental-ota.zip
-	aws s3 cp $new_path_of_signed_target_files/MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-incremental-ota.zip s3://yuopenos/$odm_name/
-	props=$(ls $new_path_of_signed_target_files/MMX-*-incremental-* -t1 | head -n 1 | xargs -n 1 basename | tr -d '\r')
+	aws s3 cp $new_path_of_signed_target_files/MMX-$date_time_stamp-$OS_Android_version-$Build_ID-$mmx_build_version_$target_product-incremental-ota.zip s3://yuopenos/$odm_name/$target_product/
+	props=$target_product/$(ls $new_path_of_signed_target_files/MMX-*-incremental-* -t1 | head -n 1 | xargs -n 1 basename | tr -d '\r')
 	cd $WORKSPACE
 	echo props=$props > build.properties
 	fi
